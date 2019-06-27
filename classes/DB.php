@@ -42,9 +42,10 @@ class DB {
 
     public function query($sql, $params = array()){
         $this->error = false;
+        //echo $sql;die();
 
         if($this->query = $this->connection->prepare($sql)){
-
+            
             if (!empty($params)) {
                 $counter = 1;
                 foreach ($params as $param) {
@@ -54,7 +55,7 @@ class DB {
             }
 
             if ($this->query->execute()) {
-                $this->results = $this->query->fetchAll(Config::get('database')['fetch']);
+                $this->results = $this->query->fetchAll(Config::get('database.fetch'));
                 $this->count = $this->query->rowCount();
             }else{             
                 $this->error = true;
@@ -104,11 +105,7 @@ class DB {
 
         foreach ($columns as $key => $value) {
 
-            if (is_string($value)) {
-                $value = "'$value'";
-            }
-
-            $values .= $value;
+            $values .= '?';
             if ($counter < $field_num) {
                 $values .= ',';
             }
@@ -126,7 +123,7 @@ class DB {
 
     
 
-    public function update($table, $fields, $id){
+    public function update($table, $id, $fields){
 
         $field_num = count($fields);
         $values = '';
@@ -134,11 +131,7 @@ class DB {
 
         foreach ($fields as $key => $value) {
 
-            if (is_string($value)) {
-                $value = "'$value'";
-            }
-
-            $values .= "$key = $value";
+            $values .= "$key = ?";
             if ($counter < $field_num) {
                 $values .= ',';
             }
@@ -146,11 +139,28 @@ class DB {
         }
 
         $sql = "UPDATE $table SET $values WHERE id=$id";
-
-     
+      
+        if(!$this->query($sql, $fields)->getError()){
+            return $this;
+        }     
     }
 
     public function getError(){
         return $this->error;
+    }
+
+    public function results()
+    {
+        return $this->results;
+    }
+
+    public function first()
+    {
+        return $this->results()[0];
+    }
+
+    public function count()
+    {
+        return $this->count;
     }
 }

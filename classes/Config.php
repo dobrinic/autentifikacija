@@ -9,8 +9,17 @@ class Config {
     public static function get($path = null){
 
         if ($path) {
-            $items = require "config/$path.php";
-            return $items;
+
+            $path_array = explode('.', $path);
+
+            foreach ($path_array as $key => $value) {
+                if ($key === 0) {
+                    $items = require "config/$value.php";                        
+                } else {
+                    $items = $items[$value];
+                }
+            }
+            return $items;        
         }
         
         return false;

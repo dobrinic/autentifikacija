@@ -3,16 +3,26 @@
     require_once "core/init.php";
 
     $db = DB::getInstance();
-
+/*
     $db->insert('users', [
-        'username' => 'alex',
+        'username' => 'alex2',
         'password' => '1232edsasfwe',
         'salt' => 'dfsawe',
         'first_name' => 'Aleksandar',
         'last_name' => 'Dobrinic',
         'role_id' => 1
     ]);
+    
 
+    $obj = $db->update('users', 3,[
+        'first_name' => 'Mario',
+        'last_name' => 'Stanić'
+    ]);
+    
+    $obj = $db->delete('users', ['id', '=', 3]);
+
+    var_dump($obj);
+*/
 
     Helper::getHeader('Home page');
 

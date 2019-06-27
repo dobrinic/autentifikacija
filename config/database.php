@@ -7,7 +7,7 @@ return[
         'host' => '127.0.0.1',
         'user' => 'root',
         'pass' => '',
-        'db' => 'autentifikacija',
+        'db' => 'fakultet',
         'charset' => 'utf8',
         'collation' => 'utf8_genaral_ci'
     ],
