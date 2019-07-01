@@ -2,36 +2,14 @@
 
     require_once "core/init.php";
 
-    $db = DB::getInstance();
-/*
-    $db->insert('users', [
-        'username' => 'alex2',
-        'password' => '1232edsasfwe',
-        'salt' => 'dfsawe',
-        'first_name' => 'Aleksandar',
-        'last_name' => 'Dobrinic',
-        'role_id' => 1
-    ]);
-    
-
-    $obj = $db->update('users', 3,[
-        'first_name' => 'Mario',
-        'last_name' => 'Stanić'
-    ]);
-    
-    $obj = $db->delete('users', ['id', '=', 3]);
-
-    var_dump($obj);
-*/
-
     Helper::getHeader('Home page');
 
     Helper::getNav();
 ?>
 
 <div class="row">
-    <div class="col-xs-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
-        <div class="jumbotron">
+    <div class="col-xs-12 col-md-8 offset-md-2">
+        <div class="jumbotron" style="margin: 50px">
             <h1 class="display-4"><?php echo Config::get('app')['name'] ?></h1>
             <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
             <hr class="my-4">
