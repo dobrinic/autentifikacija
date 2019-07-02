@@ -28,3 +28,6 @@ CREATE TABLE IF NOT EXISTS cookies (
 
 ALTER TABLE users ADD FOREIGN KEY (role_id) REFERENCES roles(id);
 ALTER TABLE cookies ADD FOREIGN KEY (user_id) REFERENCES users(id);
+
+INSERT INTO roles (name, permissions) VALUES ('admin', 'create,retrieve,update,delete');
+INSERT INTO roles (name, permissions) VALUES ('user', 'retrieve');

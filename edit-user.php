@@ -12,13 +12,17 @@
     }
 
     if (Input::exists('post')) {
+
+        $salt = Hash::salt(32);
+        $password = Hash::make(Input::get('password'), $salt);
+
         $user = DB::getInstance()->update('users', Input::get('id'), [
-            'username' => Input::get('username'),
-            'password' => Input::get('password'),
-            'salt' => 'dfsawe',
+            'username'  => strtolower(Input::get('username')), 
+            'password'  => $password,
+            'salt'      => $salt,
             'first_name' => Input::get('first_name'),
             'last_name' => Input::get('last_name'),
-            'role_id' => 1
+            'role_id' => 2
         ]);
 
         if (!$user->getError()) {
