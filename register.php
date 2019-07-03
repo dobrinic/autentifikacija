@@ -6,8 +6,6 @@
 
     Helper::getNav();
 
-   // $obj = DB::getInstance()->query("SELECT * FROM users WHERE id=? or id=?", array(9,12));
-
     $validation = new Validation();
 
     if(Input::exists()){

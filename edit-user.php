@@ -9,12 +9,18 @@
     if (Input::exists('get')) {
         $userId = Input::get('id');
         $user = DB::getInstance()->get('*', 'users', ['id', '=', $userId])->first();
+        $roles = DB::getInstance()->get('*', 'roles')->results();
     }
 
     if (Input::exists('post')) {
 
-        $salt = Hash::salt(32);
-        $password = Hash::make(Input::get('password'), $salt);
+        $salt = DB::getInstance()->get('salt', 'users', ['id', '=', $userId])->first()->salt;
+
+        if (Input::get('password')) {
+            $password = Hash::make(Input::get('password'), $salt);
+        }else{
+            $password = DB::getInstance()->get('password', 'users', ['id', '=', $userId])->first()->password;
+        }
 
         $user = DB::getInstance()->update('users', Input::get('id'), [
             'username'  => strtolower(Input::get('username')), 
@@ -22,7 +28,7 @@
             'salt'      => $salt,
             'first_name' => Input::get('first_name'),
             'last_name' => Input::get('last_name'),
-            'role_id' => 2
+            'role_id' => Input::get('user-roles')            
         ]);
 
         if (!$user->getError()) {
@@ -52,8 +58,20 @@
                         <input type="text" class="form-control" id="username" name="username" value="<?php echo $user->username ?>">
                     </div>
                     <div class="form-group">
+                        <label for="user-roles">Role</label>
+                        <select class="custom-select" id="user-roles" name="user-roles">
+                            <?php
+                                foreach ($roles as $key => $role) {
+                            ?>
+                                <option <?php $user->role_id === $role->id ? print 'selected' : print ''?> value="<?php echo $role->id ?>"><?php echo $role->name ?></option>
+                            <?php
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" value="<?php echo $user->password ?>">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Ako ne želite promijeniti password polje ostavite prazno">
                     </div>
                     <a href="all-users.php" class="btn btn-warning">Nazad</a>
                     <button type="submit" class="btn btn-primary" style="float:right">Uredi</button>

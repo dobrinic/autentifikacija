@@ -9,6 +9,7 @@
     if (Input::exists('get')) {
         $userId = Input::get('id');
         $user = DB::getInstance()->get('*', 'users', ['id', '=', $userId])->first();
+        $rola = DB::getInstance()->get('name', 'roles', ['id', '=', $user->role_id])->first();
     }
 ?>
 
@@ -19,7 +20,7 @@
             <div class="card-body">
                 <p>Ime: <?php echo $user->first_name ?></p>
                 <p>Prezime: <?php echo $user->last_name ?></p>
-                <p>Rola: <?php echo $user->role_id ?></p>
+                <p>Rola: <?php echo $rola->name ?></p>
                 <p>Username: <?php echo $user->username ?></p>
                 <p>Datum Registracije: <?php echo $user->joined ?></p>
                 <a href="all-users.php" class="btn btn-warning">Nazad</a>
